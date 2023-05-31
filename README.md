@@ -4,6 +4,6 @@
 每天监测 KernelSU 的新版本，如果有就自动构建新的内核
 
 ## 使用说明
-本 [workflow](.github/workflows/main.yml) 用于构建 **小米8 (dipper)** 的 **Pixel Experience** 内核
+本 [workflow](.github/workflows/main.yml) 用于构建 **小米6 (sagit)** 的 **LineageOS/android_kernel_xiaomi_msm8998** 内核
 
 如需编译其他内核请修改 [workflow](.github/workflows/main.yml) 的 env 部分
