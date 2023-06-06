@@ -14,8 +14,8 @@ on:
     - cron: "50 9,21 * * *"
 
 env:
-  kernel_repository: LineageOS/android_kernel_xiaomi_msm8998
-  kernel_branch: lineage-20
+  kernel_repository: sticpaper/android_kernel_xiaomi_msm8998-ksu
+  kernel_branch: ksu
   device: sagit
   defconfig: sagit_defconfig
   use_aosp_clang: false
