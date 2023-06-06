@@ -118,7 +118,7 @@ jobs:
       - name: setup kernelsu
         run: |
           curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -
-          echo 'CONFIG_KPROBES=y' >> arch/arm64/configs/${{ env.defconfig }}
+          #echo 'CONFIG_KPROBES=y' >> arch/arm64/configs/${{ env.defconfig }}
 
           #cd KernelSU
           #git checkout ${{ needs.check_kernelsu_update.outputs.kernelsu_release }}
