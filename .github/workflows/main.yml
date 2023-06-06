@@ -19,7 +19,7 @@ env:
   device: sagit
   defconfig: sagit_defconfig
   use_aosp_clang: false
-  clang_version: 14.0.6
+  clang_version: 14
 
 jobs:
   check_kernelsu_update:
