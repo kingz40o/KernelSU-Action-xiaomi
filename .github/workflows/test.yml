@@ -105,7 +105,7 @@ jobs:
       - name: make
         if: ${{ !inputs.pseudo_make }}
         run: |
-          make $flags -j$(nproc --all)
+          make CFLAGS=-std=c99 $flags -j$(nproc --all)
 
       - name: pseudo make
         if: ${{ inputs.pseudo_make }}
