@@ -11,7 +11,7 @@ on:
         default: false
 
 env:
-  kernel_repository: LineageOS/android_kernel_xiaomi_msm8998
+  kernel_repository: kingz40o/android_kernel_xiaomi_msm8998
   kernel_branch: lineage-20
   device: sagit
   defconfig: sagit_defconfig
@@ -87,11 +87,11 @@ jobs:
 
       - name: setup kernelsu
         run: |
-          curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s v0.5.7
-          echo 'CONFIG_KPROBES=y' >> arch/arm64/configs/${{ env.defconfig }}
+          curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s main
+          #echo 'CONFIG_KPROBES=y' >> arch/arm64/configs/${{ env.defconfig }}
 
           cd KernelSU
-          git checkout v0.5.7
+          git checkout main
 
       - name: export flags
         run: |
@@ -140,7 +140,7 @@ jobs:
       - name: release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v0.5.7
+          tag_name: main
           body: |
             Device:
             ${{ env.device }}
@@ -149,7 +149,7 @@ jobs:
             https://github.com/${{ env.kernel_repository }}/tree/${{ env.kernel_commit_id }}
 
             KernelSU:
-            https://github.com/tiann/KernelSU/releases/tag/v0.5.7
+            https://github.com/tiann/KernelSU/releases/tag/main
           files: |
             out/arch/arm64/boot/Image*
             AnyKernel3-master/boot.zip
