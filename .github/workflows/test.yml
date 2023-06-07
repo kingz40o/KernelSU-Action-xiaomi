@@ -95,7 +95,7 @@ jobs:
 
       - name: export flags
         run: |
-          flags="O=out ARCH=arm64 LLVM=1 LLVM_IAS=1 CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-" 
+          flags="-std=c99 O=out ARCH=arm64 LLVM=1 LLVM_IAS=1 CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-" 
           echo flags=$flags >> $GITHUB_ENV
 
       - name: make defconfig
