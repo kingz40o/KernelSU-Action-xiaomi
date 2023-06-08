@@ -17,6 +17,7 @@ env:
   defconfig: sagit_defconfig
   use_aosp_clang: false
   clang_version: 14
+  tags: v0.5.7
 
 jobs:
   build:
@@ -87,11 +88,11 @@ jobs:
 
       - name: setup kernelsu
         run: |
-          curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s main
+          curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash - ${{ env.tags }}
           #echo 'CONFIG_KPROBES=y' >> arch/arm64/configs/${{ env.defconfig }}
 
           cd KernelSU
-          git checkout main
+          git checkout ${{ env.tags }}
 
       - name: export flags
         run: |
@@ -100,12 +101,12 @@ jobs:
 
       - name: make defconfig
         run: |
-          make CFLAGS=-std=c99 $flags ${{ env.defconfig }}
+          make $flags ${{ env.defconfig }}
 
       - name: make
         if: ${{ !inputs.pseudo_make }}
         run: |
-          make CFLAGS=-std=c99 $flags -j$(nproc --all)
+          make $flags -j$(nproc --all)
 
       - name: pseudo make
         if: ${{ inputs.pseudo_make }}
@@ -140,7 +141,7 @@ jobs:
       - name: release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: main
+          tag_name: ${{ env.tags }}
           body: |
             Device:
             ${{ env.device }}
