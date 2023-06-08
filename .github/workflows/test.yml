@@ -1,14 +1,12 @@
-name: build
+name: tags build
 
 on:
-  watch:
-    types: [started]
   workflow_dispatch:
     inputs:
-      pseudo_make:
-        description: "Pseudo Make"
-        type: boolean
-        default: false
+      tags:
+        description: 'Ksu tags'     
+        required: true
+        default: 'main'
 
 env:
   kernel_repository: kingz40o/android_kernel_xiaomi_msm8998
@@ -17,7 +15,7 @@ env:
   defconfig: sagit_defconfig
   use_aosp_clang: false
   clang_version: 14
-  tags: v0.6.0
+  tags: ${{github.event.inputs.tags}}
 
 jobs:
   build:
@@ -108,14 +106,6 @@ jobs:
         run: |
           make $flags -j$(nproc --all)
 
-      - name: pseudo make
-        if: ${{ inputs.pseudo_make }}
-        run: |
-          mkdir -p out/arch/arm64/boot/
-          echo 123 > out/arch/arm64/boot/Image
-          echo 123 > out/arch/arm64/boot/Image.gz
-          echo 123 > out/arch/arm64/boot/Image.gz-dtb
-
       - name: anykernel
         run: |
           curl -Lo AnyKernel3.zip https://github.com/osm0sis/AnyKernel3/archive/refs/heads/master.zip
@@ -136,12 +126,12 @@ jobs:
           EOF
 
           cp ../out/arch/arm64/boot/Image.gz-dtb .
-          zip -r boot.zip * -x .git README.md *placeholder
+          zip -r AnyKernel3-${{ env.tags }}-${{ env.device }}.zip * -x .git README.md *placeholder
 
       - name: release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: new ${{ env.tags }}
+          tag_name: test${{ env.tags }}
           body: |
             Device:
             ${{ env.device }}
@@ -150,7 +140,7 @@ jobs:
             https://github.com/${{ env.kernel_repository }}/tree/${{ env.kernel_commit_id }}
 
             KernelSU:
-            https://github.com/tiann/KernelSU/releases/tag/main
+            https://github.com/tiann/KernelSU/releases/tag/${{ env.tags }}
           files: |
             out/arch/arm64/boot/Image*
-            AnyKernel3-master/boot.zip
+            AnyKernel3-master/AnyKernel3*.zip
