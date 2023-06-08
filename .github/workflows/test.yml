@@ -17,7 +17,7 @@ env:
   defconfig: sagit_defconfig
   use_aosp_clang: false
   clang_version: 14
-  tags: v0.5.7
+  tags: v0.6.0
 
 jobs:
   build:
