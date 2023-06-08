@@ -141,7 +141,7 @@ jobs:
       - name: release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ env.tags }}
+          tag_name: new ${{ env.tags }}
           body: |
             Device:
             ${{ env.device }}
