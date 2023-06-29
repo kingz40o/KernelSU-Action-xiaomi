@@ -39,43 +39,6 @@ jobs:
           kernel_commit_id=$(git rev-parse HEAD)
           echo kernel_commit_id=$kernel_commit_id >> $GITHUB_ENV
 
-      - name: "aosp-clang: get aosp clang version"
-        if: ${{ env.use_aosp_clang == 'true' }}
-        run: |
-          aosp_clang_version=$(curl https://android.googlesource.com/kernel/common/+/refs/heads/android-mainline/build.config.constants | sed -E -n 's .*(r[0-9]{6}[a-z]?[0-9]?).* \1 p')
-          echo aosp_clang_version=$aosp_clang_version >> $GITHUB_ENV
-
-      - name: "aosp-clang: compiler restore"
-        id: compiler_restore
-        if: ${{ env.use_aosp_clang == 'true' }}
-        uses: actions/cache/restore@v3
-        with:
-          path: compiler
-          key: compiler-${{ env.aosp_clang_version }}
-
-      - name: "aosp-clang: compiler download"
-        id: compiler_download
-        if: ${{ env.use_aosp_clang == 'true' && steps.compiler_restore.outputs.cache-hit != 'true' }}
-        run: |
-          curl -o aosp-clang.tar.gz https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/master/clang-$aosp_clang_version.tar.gz
-          mkdir -p compiler/aosp-clang
-          tar -xf aosp-clang.tar.gz -C compiler/aosp-clang
-          rm -rf aosp-clang.tar.gz
-
-      - name: "aosp-clang: compiler save"
-        id: compiler_save
-        if: ${{ env.use_aosp_clang == 'true' && steps.compiler_download.outcome == 'success' }}
-        uses: actions/cache/save@v3
-        with:
-          path: compiler
-          key: ${{ steps.compiler_restore.outputs.cache-primary-key }}
-
-      - name: "aosp-clang: setup"
-        if: ${{ env.use_aosp_clang == 'true' }}
-        run: |
-          PATH=$(pwd)/compiler/aosp-clang/bin:$PATH
-          echo PATH=$PATH >> $GITHUB_ENV
-
       - name: "vanilla-clang: setup"
         if: ${{ env.use_aosp_clang == 'false' }}
         run: |
