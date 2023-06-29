@@ -15,6 +15,7 @@ on:
           options:
            - ksu-patch
            - lineage-20
+           - main
       kernel_repository:
           description: 'kernel_repository'     
           required: true
@@ -148,14 +149,10 @@ jobs:
       - name: release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: test${{ env.tags }}
+          tag_name: debug-${{ env.tags }}
           body: |
-            Device:
-            ${{ env.device }}
-            
-            kernel_branch:
-            ${{github.event.inputs.kernel_branch}}
-
+            Device:${{ env.device }}            
+            kernel_branch:${{github.event.inputs.kernel_branch}}
             Kernel:
             https://github.com/${{ env.kernel_repository }}/tree/${{ env.kernel_commit_id }}
 
