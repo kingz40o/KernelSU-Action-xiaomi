@@ -15,10 +15,18 @@ on:
           options:
            - ksu-patch
            - lineage-20
+      kernel_repository:
+          description: 'kernel_repository'     
+          required: true
+          default: 'kingz40o/android_kernel_xiaomi_msm8998'
+          type: choice
+          options:
+           - kingz40o/android_kernel_xiaomi_msm8998
+           - sticpaper/android_kernel_xiaomi_msm8998-ksu
       
 
 env:
-  kernel_repository: kingz40o/android_kernel_xiaomi_msm8998
+  kernel_repository: ${{github.event.inputs.kernel_repository}}
   kernel_branch: ${{github.event.inputs.kernel_branch}}
   device: sagit
   defconfig: sagit_defconfig
