@@ -22,7 +22,7 @@ env:
   kernel_branch: ${{github.event.inputs.kernel_branch}}
   device: sagit
   defconfig: sagit_defconfig
-  use_aosp_clang: true
+  use_aosp_clang: false
   clang_version: 14
   tags: ${{github.event.inputs.tags}}
 
