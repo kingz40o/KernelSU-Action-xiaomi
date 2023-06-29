@@ -23,7 +23,7 @@ env:
   device: sagit
   defconfig: sagit_defconfig
   use_aosp_clang: false
-  clang_version: 16
+  clang_version: 15
   tags: ${{github.event.inputs.tags}}
 
 jobs:
