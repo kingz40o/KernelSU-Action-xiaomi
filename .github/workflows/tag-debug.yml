@@ -97,9 +97,12 @@ jobs:
       - name: "vanilla-clang: setup"
         if: ${{ env.use_aosp_clang == 'false' }}
         run: |
-          sudo apt install -y clang-$clang_version lld-$clang_version
+          #sudo apt install -y clang-$clang_version lld-$clang_version
 
-          PATH=/usr/lib/llvm-$clang_version/bin:$PATH
+          #PATH=/usr/lib/llvm-$clang_version/bin:$PATH
+          #echo PATH=$PATH >> $GITHUB_ENV
+          git clone https://github.com/kdrag0n/proton-clang.git
+          PATH=$(pwd)/toolchains/proton-clang/bin:$PATH
           echo PATH=$PATH >> $GITHUB_ENV
 
       - name: setup kernelsu
