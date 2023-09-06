@@ -105,7 +105,7 @@ jobs:
           chmod +x proton-clang/bin/*
           chmod +x proton-clang/aarch64-linux-gnu/*
           chmod +x proton-clang/arm-linux-gnueabi/*
-          PATH=$(pwd)/toolchains/proton-clang/bin:$PATH
+          PATH=$(pwd)/proton-clang/bin:$PATH
           echo PATH=$PATH >> $GITHUB_ENV
 
       - name: setup kernelsu
