@@ -131,8 +131,8 @@ jobs:
         run: |
           #flags="O=out ARCH=arm64 LLVM=1 LLVM_IAS=1 CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-" 
           #flags="O=out ARCH=arm64 LLVM=1 LLVM_IAS=1 AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip CC=clang CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-"
-          make O=out KCFLAGS=-w ARCH=arm64 CC="ccache clang" ${{ env.defconfig }}
-          make O=out KCFLAGS=-w ARCH=arm64 CC="ccache clang" -j$(nproc --all)
+          make O=out KCFLAGS=-w ARCH=arm64 CC=clang ${{ env.defconfig }}
+          make O=out KCFLAGS=-w ARCH=arm64 CC=clang -j$(nproc --all)
           #echo flags=$flags >> $GITHUB_ENV
 
       - name: anykernel
