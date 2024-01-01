@@ -93,7 +93,15 @@ jobs:
         run: |
           PATH=$(pwd)/compiler/aosp-clang/bin:$PATH
           echo PATH=$PATH >> $GITHUB_ENV
+          
+      - name: setup kernelsu
+        run: |
+          curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s ${{ env.tags }}
+          #echo 'CONFIG_KPROBES=y' >> arch/arm64/configs/${{ env.defconfig }}
 
+          cd KernelSU
+          git checkout ${{ env.tags }}
+          
       - name: "vanilla-clang: setup"
         if: ${{ env.use_aosp_clang == 'false' }}
         run: |
@@ -118,14 +126,6 @@ jobs:
           export ANDROID_MAJOR_VERSION=r
           export KCFLAGS=-w
           echo PATH=$PATH >> $GITHUB_ENV
-
-      - name: setup kernelsu
-        run: |
-          curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s ${{ env.tags }}
-          #echo 'CONFIG_KPROBES=y' >> arch/arm64/configs/${{ env.defconfig }}
-
-          cd KernelSU
-          git checkout ${{ env.tags }}
 
       - name: export flags
         run: |
