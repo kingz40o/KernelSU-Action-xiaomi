@@ -15,7 +15,7 @@ on:
 
 env:
   kernel_repository: kingz40o/android_kernel_xiaomi_msm8998
-  kernel_branch: lineage-20
+  kernel_branch: ksu-patch
   device: sagit
   defconfig: sagit_defconfig
   use_aosp_clang: false
@@ -110,9 +110,15 @@ jobs:
       - name: "vanilla-clang: setup"
         if: ${{ env.use_aosp_clang == 'false' }}
         run: |
-          sudo apt install -y clang-$clang_version lld-$clang_version
+          #sudo apt install -y clang-$clang_version lld-$clang_version
 
-          PATH=/usr/lib/llvm-$clang_version/bin:$PATH
+          #PATH=/usr/lib/llvm-$clang_version/bin:$PATH
+          #echo PATH=$PATH >> $GITHUB_ENV
+          git clone https://github.com/kdrag0n/proton-clang.git
+          chmod +x proton-clang/bin/*
+          chmod +x proton-clang/aarch64-linux-gnu/*
+          chmod +x proton-clang/arm-linux-gnueabi/*
+          PATH=$(pwd)/proton-clang/bin:$PATH
           echo PATH=$PATH >> $GITHUB_ENV
 
       - name: setup kernelsu
@@ -125,7 +131,7 @@ jobs:
 
       - name: export flags
         run: |
-          flags="O=out ARCH=arm64 LLVM=1 LLVM_IAS=1 CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-" 
+          flags="O=out ARCH=arm64 LLVM=1 LLVM_IAS=1 AR=llvm-ar NM=llvm-nm OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump STRIP=llvm-strip CC=clang CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi-" 
           echo flags=$flags >> $GITHUB_ENV
 
       - name: make defconfig
