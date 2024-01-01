@@ -11,7 +11,7 @@ on:
         default: false
 
   schedule:
-    - cron: "50 9,21 * * *"
+    - cron: "5 4 1 * *"
 
 env:
   kernel_repository: kingz40o/android_kernel_xiaomi_msm8998
